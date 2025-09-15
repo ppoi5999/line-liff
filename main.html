@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會員註冊</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f2f5;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h1 {
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: #00b900;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #00a000;
+        }
+        .status-message {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #d9534f;
+        }
+    </style>
+    <script src="https://static.line-scdn.net/liff/2.21.1/sdk.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>註冊成為會員</h1>
+        <form id="registrationForm">
+            <div class="input-group">
+                <label for="name">姓名</label>
+                <input type="text" id="name" placeholder="請輸入您的姓名" required>
+            </div>
+            <div class="input-group">
+                <label for="phone">手機號碼</label>
+                <input type="tel" id="phone" placeholder="請輸入您的手機號碼" required>
+            </div>
+            <button type="submit">送出</button>
+        </form>
+        <p class="status-message" id="statusMessage"></p>
+    </div>
+
+    <script>
+        // 設定你的 LIFF ID 和 N8N Webhook URL
+        const liffId = 'YOUR_LIFF_ID'; // 請替換成你的 LIFF ID
+        const n8nWebhookUrl = 'YOUR_N8N_WEBHOOK_URL'; // 請替換成你的 N8N Webhook URL
+
+        let userProfile;
+
+        // LIFF 初始化
+        async function initializeLiff() {
+            try {
+                await liff.init({ liffId: liffId });
+                // 檢查是否在 LINE 應用程式內
+                if (!liff.isInClient()) {
+                    document.getElementById('statusMessage').textContent = '請從 LINE 應用程式內開啟此網頁。';
+                    return;
+                }
+                userProfile = await liff.getProfile();
+                console.log('LIFF 成功初始化，用戶名稱：', userProfile.displayName);
+            } catch (err) {
+                console.error('LIFF 初始化失敗', err);
+                document.getElementById('statusMessage').textContent = 'LIFF 初始化失敗，請檢查設定。';
+            }
+        }
+
+        // 監聽表單送出事件
+        document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+            e.preventDefault(); // 阻止表單預設送出行為
+
+            if (!userProfile) {
+                document.getElementById('statusMessage').textContent = 'LIFF 尚未初始化，請稍後再試。';
+                return;
+            }
+            
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const statusMessage = document.getElementById('statusMessage');
+            
+            statusMessage.textContent = '資料送出中，請稍候...';
+            
+            const payload = {
+                line_user_id: userProfile.userId,
+                name: name,
+                phone: phone,
+                source: 'liff_form'
+            };
+            
+            console.log('準備送出資料:', payload);
+
+            try {
+                const response = await fetch(n8nWebhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    statusMessage.style.color = '#28a745';
+                    statusMessage.textContent = '註冊成功！感謝您的填寫。';
+                    setTimeout(() => {
+                        liff.closeWindow(); // 成功後自動關閉視窗
+                    }, 2000);
+                } else {
+                    statusMessage.style.color = '#d9534f';
+                    statusMessage.textContent = '註冊失敗，請稍後再試。';
+                }
+            } catch (error) {
+                console.error('資料送出錯誤:', error);
+                statusMessage.style.color = '#d9534f';
+                statusMessage.textContent = '連線錯誤，請檢查您的網路。';
+            }
+        });
+
+        // 頁面載入時執行 LIFF 初始化
+        window.onload = initializeLiff;
+    </script>
+</body>
+</html>
