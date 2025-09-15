@@ -88,27 +88,9 @@
 
     <script>
         // 設定你的 LIFF ID 和 N8N Webhook URL
-        const liffId = '2008111484'; // 請替換成你的 LIFF ID23
         const n8nWebhookUrl = 'https://qingmu.zeabur.app/webhook/0d093d12-961a-4c7b-9cc7-6bcd41014c70'; // 請替換成你的 N8N Webhook URL
 
         let userProfile;
-
-        // LIFF 初始化
-        async function initializeLiff() {
-            try {
-                await liff.init({ liffId: liffId });
-                // 檢查是否在 LINE 應用程式內
-                if (!liff.isInClient()) {
-                    document.getElementById('statusMessage').textContent = '請從 LINE 應用程式內開啟此網頁。';
-                    return;
-                }
-                userProfile = await liff.getProfile();
-                console.log('LIFF 成功初始化，用戶名稱：', userProfile.displayName);
-            } catch (err) {
-                console.error('LIFF 初始化失敗', err);
-                document.getElementById('statusMessage').textContent = 'LIFF 初始化失敗，請檢查設定。';
-            }
-        }
 
         // 監聽表單送出事件
         document.getElementById('registrationForm').addEventListener('submit', async function(e) {
