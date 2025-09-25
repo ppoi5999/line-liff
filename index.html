@@ -1,230 +1,298 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>會員註冊</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f0f2f5;
-            padding: 20px;
-            box-sizing: border-box;
-            margin: 0;
-        }
-        .container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-        h1 {
-            color: #1a1a1a;
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
-        .input-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 5px;
-            background-color: #00b900;
-            color: #fff;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease, opacity 0.3s ease;
-        }
-        button:hover:not(:disabled) {
-            background-color: #00a000;
-        }
-        button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-        .status-message {
-            margin-top: 20px;
-            font-size: 16px;
-            font-weight: bold;
-        }
-        .success { color: #28a745; }
-        .error { color: #d9534f; }
-        .loading { color: #555; }
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f0f2f5;
+        padding: 20px;
+        box-sizing: border-box;
+        margin: 0;
+      }
+      .container {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+      }
+      h1 {
+        color: #1a1a1a;
+        margin-bottom: 20px;
+        font-size: 24px;
+      }
+      .input-group {
+        margin-bottom: 20px;
+        text-align: left;
+      }
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #555;
+      }
+      input,
+      select {
+        /* 新增 select 的樣式 */
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+        box-sizing: border-box;
+      }
+      button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 5px;
+        background-color: #00b900;
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease, opacity 0.3s ease;
+      }
+      button:hover:not(:disabled) {
+        background-color: #00a000;
+      }
+      button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+        opacity: 0.7;
+      }
+      .status-message {
+        margin-top: 20px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      .success {
+        color: #28a745;
+      }
+      .error {
+        color: #d9534f;
+      }
+      .loading {
+        color: #555;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1>註冊成為會員</h1>
-        <form id="registrationForm">
-            <div class="input-group">
-                <label for="name">姓名</label>
-                <input type="text" id="name" placeholder="請輸入您的姓名" required>
-            </div>
-            <div class="input-group">
-                <label for="phone">手機號碼</label>
-                <input type="tel" id="phone" placeholder="請輸入您的手機號碼" required>
-            </div>
-            <button type="submit" id="submitButton" disabled>初始化中...</button>
-        </form>
-        <p class="status-message" id="statusMessage"></p>
+      <h1>註冊成為會員</h1>
+      <form id="registrationForm">
+        <div class="input-group">
+          <label for="name">姓名</label>
+          <input type="text" id="name" placeholder="請輸入您的姓名" required />
+        </div>
+        <div class="input-group">
+          <label for="phone">手機號碼</label>
+          <input
+            type="tel"
+            id="phone"
+            placeholder="請輸入您的手機號碼"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+          <label for="email">電子信箱</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="請輸入您的電子信箱 (選填)"
+          />
+        </div>
+
+        <div class="input-group">
+          <label for="birthday">生日</label>
+          <input type="date" id="birthday" required />
+        </div>
+
+        <div class="input-group">
+          <label for="gender">性別</label>
+          <select id="gender" required>
+            <option value="" disabled selected>請選擇</option>
+            <option value="male">男</option>
+            <option value="female">女</option>
+            <option value="other">其他/不公開</option>
+          </select>
+        </div>
+
+        <button type="submit" id="submitButton" disabled>初始化中...</button>
+      </form>
+      <p class="status-message" id="statusMessage"></p>
     </div>
 
-    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <script
+      charset="utf-8"
+      src="https://static.line-scdn.net/liff/edge/2/sdk.js"
+    ></script>
     <script>
-        document.addEventListener('DOMContentLoaded', main);
+      document.addEventListener("DOMContentLoaded", main);
 
-        async function main() {
-            // --- 常數設定 ---
-            const liffId = '2008111484-Q07epLJm'; // 請替換成您自己的 LIFF ID
-            const n8nWebhookUrl = 'https://qingmu.zeabur.app/webhook/0d093d12-961a-4c7b-9cc7-6bcd41014c70'; // 請替換成您自己的 Webhook URL
+      async function main() {
+        // --- 常數設定 ---
+        const liffId = "2008111484-Q07epLJm"; // 請替換成您自己的 LIFF ID
+        const n8nWebhookUrl =
+          "https://qingmu.zeabur.app/webhook/0d093d12-961a-4c7b-9cc7-6bcd41014c70"; // 請替換成您自己的 Webhook URL
 
-            // --- DOM 元素獲取 ---
-            const form = document.getElementById('registrationForm');
-            const nameInput = document.getElementById('name');
-            const phoneInput = document.getElementById('phone');
-            const submitButton = document.getElementById('submitButton');
-            const statusMessage = document.getElementById('statusMessage');
-            
-            let userProfile = null;
+        // --- DOM 元素獲取 ---
+        const form = document.getElementById("registrationForm");
+        const nameInput = document.getElementById("name");
+        const phoneInput = document.getElementById("phone");
+        const emailInput = document.getElementById("email"); // 新增
+        const birthdayInput = document.getElementById("birthday"); // 新增
+        const genderSelect = document.getElementById("gender"); // 新增
+        const submitButton = document.getElementById("submitButton");
+        const statusMessage = document.getElementById("statusMessage");
 
-            try {
-                // 1. 初始化 LIFF
-                await liff.init({ liffId: liffId });
-                console.log("LIFF initialized!");
+        let userProfile = null;
 
-                // 2. 檢查登入狀態
-                if (!liff.isLoggedIn()) {
-                    statusMessage.textContent = '請先登入 LINE';
-                    liff.login();
-                    return;
-                }
+        try {
+          // 1. 初始化 LIFF
+          await liff.init({ liffId: liffId });
+          console.log("LIFF initialized!");
 
-                // 3. 獲取用戶 Profile
-                userProfile = await liff.getProfile();
-                console.log("User profile fetched:", userProfile);
-                
-                // 【優化 1】: 自動填入用戶的 LINE 名稱
-                if (userProfile && userProfile.displayName) {
-                    nameInput.value = userProfile.displayName;
-                }
-                
-                // 4. LIFF 準備就緒，啟用按鈕
-                submitButton.disabled = false;
-                submitButton.textContent = '送出';
+          // 2. 檢查登入狀態
+          if (!liff.isLoggedIn()) {
+            statusMessage.textContent = "請先登入 LINE";
+            liff.login();
+            return;
+          }
 
-            } catch (err) {
-                console.error("LIFF initialization failed", err);
-                statusMessage.textContent = 'LIFF 初始化失敗，請重新整理。';
-                submitButton.textContent = '錯誤';
-                return;
-            }
+          // 3. 獲取用戶 Profile
+          userProfile = await liff.getProfile();
+          console.log("User profile fetched:", userProfile);
 
-            // 5. 監聽表單送出事件
-            form.addEventListener('submit', async function(e) {
-                e.preventDefault();
+          // 【優化 1】: 自動填入用戶的 LINE 名稱
+          if (userProfile && userProfile.displayName) {
+            nameInput.value = userProfile.displayName;
+          }
 
-                if (!userProfile || !userProfile.userId) {
-                    statusMessage.className = 'status-message error';
-                    statusMessage.textContent = '無法獲取 LINE 用戶資訊，請重新整理。';
-                    return;
-                }
-                
-                const name = nameInput.value;
-                const phone = phoneInput.value;
-                
-                // 【優化 2】: 增加手機號碼格式驗證
-                const phoneRegex = /^09\d{8}$/; // 台灣手機: 09開頭，共10位數字
-                if (!phoneRegex.test(phone)) {
-                    statusMessage.className = 'status-message error';
-                    statusMessage.textContent = '請輸入正確的 10 位手機號碼 (09開頭)';
-                    return; // 中斷送出，讓使用者修改
-                }
+          // 【LINE Email 權限提醒】: 如果您有設定 LIFF 的 email 權限，可以嘗試獲取並自動填入
+          /* if (liff.getAccessToken() && liff.getProfile().email) {
+                    emailInput.value = liff.getProfile().email;
+                } 
+                */
 
-                // --- 禁用按鈕防止重複提交 ---
-                submitButton.disabled = true;
-                submitButton.textContent = '資料送出中...';
-                statusMessage.className = 'status-message loading';
-                statusMessage.textContent = '資料送出中，請稍候...';
-                
-                const payload = {
-                    line_user_id: userProfile.userId,
-                    name: name,
-                    phone: phone,
-                    source: 'liff_form'
-                };
-                
-                console.log('準備送出資料:', payload);
-
-                try {
-                    const response = await fetch(n8nWebhookUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (response.ok) {
-                        statusMessage.className = 'status-message success';
-                        statusMessage.textContent = '註冊成功！將為您發送確認訊息。';
-                        
-                        // 【優化 3】: 註冊成功後發送一則 LINE 訊息
-                        if (liff.isInClient()) {
-                            await liff.sendMessages([
-                                {
-                                    type: 'text',
-                                    text: `Hi ${name}，感謝您完成會員註冊！\n我們已收到您的資料，將由專人盡快為您服務。`
-                                }
-                            ]).catch(err => console.error("Send message failed", err));
-                        }
-                        
-                        // 1.5秒後自動關閉視窗
-                        setTimeout(() => {
-                            if (liff.isInClient()) {
-                                liff.closeWindow();
-                            }
-                        }, 1500);
-                    } else {
-                        const errorData = await response.json().catch(() => ({}));
-                        console.error('Server error:', response.status, errorData);
-                        statusMessage.className = 'status-message error';
-                        statusMessage.textContent = `註冊失敗 (${response.status})，請稍後再試。`;
-                        submitButton.disabled = false;
-                        submitButton.textContent = '重新送出';
-                    }
-                } catch (error) {
-                    console.error('資料送出錯誤:', error);
-                    statusMessage.className = 'status-message error';
-                    statusMessage.textContent = '連線錯誤，請檢查您的網路並重試。';
-                    submitButton.disabled = false;
-                    submitButton.textContent = '重新送出';
-                }
-            });
+          // 4. LIFF 準備就緒，啟用按鈕
+          submitButton.disabled = false;
+          submitButton.textContent = "送出";
+        } catch (err) {
+          console.error("LIFF initialization failed", err);
+          statusMessage.textContent = "LIFF 初始化失敗，請重新整理。";
+          submitButton.textContent = "錯誤";
+          return;
         }
+
+        // 5. 監聽表單送出事件
+        form.addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          if (!userProfile || !userProfile.userId) {
+            statusMessage.className = "status-message error";
+            statusMessage.textContent = "無法獲取 LINE 用戶資訊，請重新整理。";
+            return;
+          }
+
+          const name = nameInput.value.trim();
+          const phone = phoneInput.value.trim();
+          const email = emailInput.value.trim(); // 新增
+          const birthday = birthdayInput.value.trim(); // 新增
+          const gender = genderSelect.value; // 新增
+
+          // 【優化 2.1】: 手機號碼格式驗證
+          const phoneRegex = /^09\d{8}$/; // 台灣手機: 09開頭，共10位數字
+          if (!phoneRegex.test(phone)) {
+            statusMessage.className = "status-message error";
+            statusMessage.textContent = "請輸入正確的 10 位手機號碼 (09開頭)";
+            return;
+          }
+
+          // 【優化 2.2】: 信箱格式驗證 (選填但若有輸入則須符合格式)
+          const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+          if (email && !emailRegex.test(email)) {
+            statusMessage.className = "status-message error";
+            statusMessage.textContent = "請輸入正確的電子信箱格式";
+            return;
+          }
+
+          // --- 禁用按鈕防止重複提交 ---
+          submitButton.disabled = true;
+          submitButton.textContent = "資料送出中...";
+          statusMessage.className = "status-message loading";
+          statusMessage.textContent = "資料送出中，請稍候...";
+
+          const payload = {
+            line_user_id: userProfile.userId,
+            name: name,
+            phone: phone,
+            // 新增欄位
+            email: email,
+            birthday: birthday,
+            gender: gender,
+            // end
+            source: "liff_form",
+          };
+
+          console.log("準備送出資料:", payload);
+
+          try {
+            const response = await fetch(n8nWebhookUrl, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+
+            if (response.ok) {
+              statusMessage.className = "status-message success";
+              statusMessage.textContent = "註冊成功！將為您發送確認訊息。";
+
+              // 【優化 3】: 註冊成功後發送一則 LINE 訊息
+              if (liff.isInClient()) {
+                await liff
+                  .sendMessages([
+                    {
+                      type: "text",
+                      text: `Hi ${name}，感謝您完成會員註冊！\n我們已收到您的資料，您填寫的手機號碼是：${phone}`,
+                    },
+                  ])
+                  .catch((err) => console.error("Send message failed", err));
+              }
+
+              // 1.5秒後自動關閉視窗
+              setTimeout(() => {
+                if (liff.isInClient()) {
+                  liff.closeWindow();
+                }
+              }, 1500);
+            } else {
+              const errorData = await response.json().catch(() => ({}));
+              console.error("Server error:", response.status, errorData);
+              statusMessage.className = "status-message error";
+              statusMessage.textContent = `註冊失敗 (${response.status})，請稍後再試。`;
+              submitButton.disabled = false;
+              submitButton.textContent = "重新送出";
+            }
+          } catch (error) {
+            console.error("資料送出錯誤:", error);
+            statusMessage.className = "status-message error";
+            statusMessage.textContent = "連線錯誤，請檢查您的網路並重試。";
+            submitButton.disabled = false;
+            submitButton.textContent = "重新送出";
+          }
+        });
+      }
     </script>
-</body>
+  </body>
 </html>
